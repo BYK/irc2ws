@@ -10,12 +10,6 @@ import socket
 from tornado.iostream import IOStream
 
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        loader = tornado.template.Loader(".")
-        self.write(loader.load("index.html").generate())
-
-
 class WS2IRCBridge(tornado.websocket.WebSocketHandler):
     def open(self, host='irc.freenode.net', port=6667):
         self.sock = IOStream(socket.socket(socket.AF_INET,
