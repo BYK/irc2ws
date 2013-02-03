@@ -9,6 +9,7 @@ import socket
 
 from tornado.iostream import IOStream
 
+
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         loader = tornado.template.Loader(".")
@@ -31,7 +32,7 @@ class WS2IRCBridge(tornado.websocket.WebSocketHandler):
             self.sock.read_until("\r\n", self.sock_loop)
 
     def on_message(self, message):
-        self.sock.write(bytes(message + "\r\n"))
+        self.sock.write(message.encode('utf-8') + "\r\n")
 
     def on_close(self):
         self.sock.close()
