@@ -10,7 +10,8 @@ from tornado.websocket import WebSocketHandler
 
 
 class WS2IRCBridge(WebSocketHandler):
-    def open(self, host='irc.freenode.net', port=6667):
+    def open(self, host='irc.freenode.net', port=None):
+        port = int(port or 6667)
         self.sock = IOStream(socket.socket(socket.AF_INET,
                                            socket.SOCK_STREAM, 0))
         self.sock.connect((host, port), self.sock_loop)
@@ -36,6 +37,6 @@ if __name__ == "__main__":
         'auto_reload': True,
     }
 
-    application = Application([(r'/([^:]*)', WS2IRCBridge)], **settings)
+    application = Application([(r'/([^:]*):?(\d*)$', WS2IRCBridge)],**settings)
     application.listen(9090)
     IOLoop.instance().start()
