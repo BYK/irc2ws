@@ -31,7 +31,7 @@ class WS2IRCBridge(tornado.websocket.WebSocketHandler):
             self.sock.read_until("\r\n", self.sock_loop)
 
     def on_message(self, message):
-        self.sock.write(message + "\r\n")
+        self.sock.write(bytes(message + "\r\n"))
 
     def on_close(self):
         self.sock.close()
