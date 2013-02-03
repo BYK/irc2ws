@@ -36,6 +36,6 @@ if __name__ == "__main__":
         'auto_reload': True,
     }
 
-    application = Application([(r'/([^:]*)', WS2IRCBridge)],**settings)
+    application = Application([(r'/([^:]*)', WS2IRCBridge)], **settings)
     application.listen(9090)
     IOLoop.instance().start()
