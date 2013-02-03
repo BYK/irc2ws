@@ -38,14 +38,12 @@ class WS2IRCBridge(tornado.websocket.WebSocketHandler):
         self.sock.close()
 
 
-settings = {
-    'auto_reload': True,
-}
-
-application = tornado.web.Application([
-    (r'/([^:]*)', WS2IRCBridge),
-], **settings)
-
 if __name__ == "__main__":
+    settings = {
+        'auto_reload': True,
+    }
+
+    application = tornado.web.Application([(r'/([^:]*)', WS2IRCBridge)],
+                                          **settings)
     application.listen(9090)
     tornado.ioloop.IOLoop.instance().start()
