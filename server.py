@@ -38,11 +38,15 @@ class WS2IRCBridge(tornado.websocket.WebSocketHandler):
         self.sock.close()
 
 
+settings = {
+    'auto_reload': True,
+}
+
 application = tornado.web.Application([
     (r'/ws', WS2IRCBridge),
     (r"/", MainHandler),
     (r"/(.*)", tornado.web.StaticFileHandler, {"path": "./resources"}),
-])
+], **settings)
 
 if __name__ == "__main__":
     application.listen(9090)
