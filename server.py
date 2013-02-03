@@ -43,9 +43,7 @@ settings = {
 }
 
 application = tornado.web.Application([
-    (r'/ws', WS2IRCBridge),
-    (r"/", MainHandler),
-    (r"/(.*)", tornado.web.StaticFileHandler, {"path": "./resources"}),
+    (r'/([^:]*)', WS2IRCBridge),
 ], **settings)
 
 if __name__ == "__main__":
