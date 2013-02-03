@@ -1,16 +1,15 @@
 # coding: utf-8
 
 import logging
-import tornado.ioloop
-import tornado.web
-import tornado.websocket
-import tornado.template
 import socket
 
+from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
+from tornado.web import Application
+from tornado.websocket import WebSocketHandler
 
 
-class WS2IRCBridge(tornado.websocket.WebSocketHandler):
+class WS2IRCBridge(WebSocketHandler):
     def open(self, host='irc.freenode.net', port=6667):
         self.sock = IOStream(socket.socket(socket.AF_INET,
                                            socket.SOCK_STREAM, 0))
@@ -37,7 +36,6 @@ if __name__ == "__main__":
         'auto_reload': True,
     }
 
-    application = tornado.web.Application([(r'/([^:]*)', WS2IRCBridge)],
-                                          **settings)
+    application = Application([(r'/([^:]*)', WS2IRCBridge)],**settings)
     application.listen(9090)
-    tornado.ioloop.IOLoop.instance().start()
+    IOLoop.instance().start()
