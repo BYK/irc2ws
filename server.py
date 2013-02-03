@@ -33,10 +33,8 @@ class WS2IRCBridge(WebSocketHandler):
 
 
 if __name__ == "__main__":
-    settings = {
-        'auto_reload': True,
-    }
-
-    application = Application([(r'/([^:]*):?(\d*)$', WS2IRCBridge)],**settings)
-    application.listen(9090)
+    settings = dict(auto_reload=True)
+    app = Application([(r'/([^:]*):?(\d*)$', WS2IRCBridge)],
+                      **settings)
+    app.listen(9090)
     IOLoop.instance().start()
