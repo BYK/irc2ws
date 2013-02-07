@@ -20,8 +20,10 @@ class WS2IRCBridge(WebSocketHandler):
     def sock_loop(self, data=None):
         if data:
             self.write_message(data)
+
         if self.sock.closed():
             self.close()
+            logging.debug("IRC socket closed. Closing active WebSocket too.")
         else:
             self.sock.read_until("\r\n", self.sock_loop)
 
@@ -30,11 +32,12 @@ class WS2IRCBridge(WebSocketHandler):
 
     def on_close(self):
         self.sock.close()
+        logging.debug("Client closed the WebSocket.")
 
 
 if __name__ == "__main__":
     settings = dict(auto_reload=True)
     app = Application([(r'/([^:]*):?(\d*)$', WS2IRCBridge)],
                       **settings)
-    app.listen(9090)
+    app.listen(1988)
     IOLoop.instance().start()
